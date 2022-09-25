@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Sell
+{% endblock %}
+
+{% block main %}
+{% if fail %}
+<div class="alert alert-danger center" style="width:75%" role="alert">
+    {{ fail }}
+</div>
+{% endif %}
+<form action="/sell" method="POST">
+    <div class="mb-3">
+        <select autofocus class="form-select" style="width:210px; margin-left:auto; margin-right:auto; text-align:center"
+            id="symbol" name="symbol">
+            <option disabled selected>Stocks</option>
+            {% for stock in stocks %}
+            <option value="{{ stock[0] }}">{{ stock[0] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <input autocomplete="off" class="form-control mx-auto w-auto" id="shares" name="shares" placeholder="Shares"
+            type="number">
+    </div>
+    <button class="btn btn-danger" type="submit">Sell</button>
+</form>
+{% endblock %}

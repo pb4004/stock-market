@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+History
+{% endblock %}
+
+{% block main %}
+<table class="table center" style="width:50%">
+    <thead>
+        <tr>
+            <th scope="col">Transaction</th>
+            <th scope="col">Symbol</th>
+            <th scope="col">Shares</th>
+            <th scope="col">Price</th>
+            <th scope="col">Time*</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tx in transactions %}
+        {% if tx["buy"]: %}
+        <tr class="table-success">
+            <td>BUY</td>
+        {% else %}
+        <tr class="table-danger">
+            <td>SELL</td>
+        {% endif %}
+            <th scope="row">{{ tx["symbol"] }}</th>
+            <td>{{ tx["shares"] }}</td>
+            <td>{{ tx["price"] | usd }}</td>
+            <td>{{ tx["time"] }}</td>
+        </tr>
+        {% endfor %}
+</table>
+*all times in Eastern Time
+{% endblock %}

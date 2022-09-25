@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Index
+{% endblock %}
+
+{% block main %}
+<table class="table table-striped center" style="width:50%">
+    <thead>
+        <tr>
+            <th scope="col">Symbol</th>
+            <th scope="col">Shares</th>
+            <th scope="col">Current Price</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for stock in stock_list %}
+        <tr>
+            <th scope="row">{{ stock["symbol"] }}</th>
+            <td>{{ stock["shares"] }}</td>
+            <td>{{ stock["price"] | usd }}</td>
+            <td>{{ stock["total"] | usd }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th scope="row">CASH</th>
+            <td></td>
+            <td></td>
+            <td>{{ cash | usd }}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <td></td>
+        <td></td>
+        <td></td>
+        <th class="{{'blue' if isclose(cash+sum, 10000.0, abs_tol=10**-7) else 'green' if cash+sum > 10000.0 else 'red'}}"
+            scope="row">{{ (sum+cash) | usd}}</td>
+    </tfoot>
+</table>
+{% endblock %}

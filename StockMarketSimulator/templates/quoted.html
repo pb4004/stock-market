@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Quote
+{% endblock %}
+
+{% block main %}
+<table class="table table-striped center" style="width:50%">
+    <tbody>
+        <tr>
+            <th scope="row">Symbol</th>
+            <td>{{info["symbol"]}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Name</th>
+            <td>{{info["name"]}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Price</th>
+            <td>{{info["price"] | usd}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<a class="btn btn-success" href="/buy" role="button">Buy</a>
+<a class="btn btn-danger" href="/sell" role="button">Sell</a>
+
+{% endblock %}
