@@ -1,6 +1,7 @@
 import os
 
 import sqlite3
+import config
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from tempfile import mkdtemp
@@ -29,7 +30,7 @@ Session(app)
 con = sqlite3.connect('finance.db', check_same_thread=False)
 cur = con.cursor()
 
-os.environ["API_KEY"] = "pk_72a7136f879f4707a306f1e91e7a2932"
+os.environ["API_KEY"] = config.iex_api_key
 # Make sure API key is set
 if not os.environ.get("API_KEY"):
     raise RuntimeError("API_KEY not set")
@@ -66,6 +67,7 @@ def index():
 @app.route("/buy", methods=["GET", "POST"])
 @login_required
 def buy():
+    """Enable user to buy stocks if they have enough cash"""
     if request.method == "POST":
         if not request.form.get("symbol"):
             return render_template("buy.html", fail="Must provide symbol."), 400
@@ -190,6 +192,7 @@ def register():
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
 def sell():
+    """Sell stocks owned by user"""
     portfolio = cur.execute(
             "SELECT symbol FROM transactions WHERE user_id = ? GROUP BY symbol HAVING SUM(shares) > 0", 
             (session["user_id"],)).fetchall()
